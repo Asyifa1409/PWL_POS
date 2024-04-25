@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\LevelModel;
 
 class LevelController extends Controller
 {
-    public function index(){
-        DB::insert('insert into m_level(level_kode, level_nama, created_at)values(?, ?, ?)', ['CUS', 'Customer', now()]);
+    public function index() 
+    {
+        $breadcrumb = (object) [
+            'title' => 'Daftar Level',
+            'list' => ['Home', 'Level']
+        ];
 
-        return 'insert data baru berhasil';
+        $page = (object) [
+            'title' => 'daftar level yang terdaftar dalam sistem'
+        ];
+        $activeMenu = 'user';
+        $level = levelModel::all();
+        return view('level.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level'=> $level,'activeMenu' => $activeMenu]);
 
-        //$row = DB::update('update m_level set level_nama = ? where level_kode = ?', ['customer', 'CUS']);
-        //return 'Update data berhasil. jumlah data yang diupdate: ' .$row. 'baris';
-
-        //$row = DB::delete('delete from m_level where level_kode = ?', ['CUS']);
-        //return 'delete data berhasil. jumlah data yang dihapus: ' . $row . ' baris';
-
-        //$data = DB::select('select * from m_level');
-        //return view('level', ['data' => $data]);
     }
 }
